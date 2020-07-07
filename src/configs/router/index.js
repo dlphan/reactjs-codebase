@@ -1,4 +1,4 @@
-export const nonAuthenticatedRoutes = [
+const nonAuthenticatedRoutes = [
   {
     exact: true,
     path: '/login',
@@ -6,10 +6,20 @@ export const nonAuthenticatedRoutes = [
   }
 ]
 
-export const authenticatedRoutes = [
+const authenticatedRoutes = [
   {
     exact: true,
     path: '/home',
     component: 'home'
+  },
+  {
+    exact: true,
+    path: '/about',
+    component: 'about'
   }
 ]
+
+export {
+  nonAuthenticatedRoutes,
+  authenticatedRoutes
+}

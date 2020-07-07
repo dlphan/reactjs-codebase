@@ -1,25 +1,44 @@
-import React, { Suspense } from 'react'
-import './App.less'
+import React, { Suspense } from "react";
+import "./App.less";
 import {
   BrowserRouter as Router,
   Switch,
-  Route
-} from 'react-router-dom'
+  Route,
+  Redirect,
+} from "react-router-dom";
 
-import Page1 from './pages/page1'
-import Page2 from './pages/page2'
+import { authenticatedRoutes } from "./configs";
 
-function App () {
+const Components = {};
+authenticatedRoutes.forEach((route) => {
+  Components[route.component] = React.lazy(() =>
+    import(`./pages/${route.component}`)
+  )
+});
+
+const App = () => {
+  const pages = authenticatedRoutes.map((route, idx) => (
+    <Route
+      key={idx}
+      exact={route.exact}
+      path={route.path}
+      // component={route.component}
+      render={routeProps => {
+        const Component = Components[route.component]
+        return <Component {...routeProps} route={route} />
+      }}
+    />
+  ));
   return (
     // code-splitting + React router (https://reactjs.org/docs/code-splitting.html).
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={null}>
         <Switch>
-          <Route exact path='/page/page1' component={Page1}/>
-          <Route path='/page/page2' component={Page2}/>
+          {pages}
+          <Redirect to="/home" />
         </Switch>
       </Suspense>
     </Router>
-  )
-}
-export default App
+  );
+};
+export default App;
