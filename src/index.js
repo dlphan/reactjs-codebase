@@ -1,3 +1,9 @@
+import 'react-app-polyfill/ie11'
+import 'react-app-polyfill/stable'
+import 'core-js'
+import 'raf/polyfill'
+import '@babel/polyfill'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PureApp from './App'
